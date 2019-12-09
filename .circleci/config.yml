@@ -1,0 +1,24 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/scala-playground
+    docker:
+      - image: ubuntu:18.04
+    environment:
+      SBT_VERSION: 1.3.4
+    steps:
+      - run: echo 'export ARTIFACT_BUILD=$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM.zip' >> $BASH_ENV
+      - run:
+          name: install sbt jdk and scala
+          command: |
+            apt update && apt install -y curl
+            curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
+            dpkg -i sbt-$SBT_VERSION.deb
+            rm sbt-$SBT_VERSION.deb
+            apt update
+            apt install -y sbt scala openjdk-11-jdk
+            apt clean && apt autoclean
+      - checkout
+      - run: scalac -version && javac -version
+      - run: scalac HelloWorld.scala
+      - run: scala HelloWorld
