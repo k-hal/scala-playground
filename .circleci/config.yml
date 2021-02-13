@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/scala-playground
     docker:
-      - image: ubuntu:18.04
+      - image: ubuntu:18.10
     environment:
       SBT_VERSION: 1.3.4
     steps:
