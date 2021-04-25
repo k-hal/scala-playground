@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/scala-playground
     docker:
-      - image: ubuntu:20.04
+      - image: ubuntu:20.10
     environment:
       SBT_VERSION: 1.4.7
       DEBIAN_FRONTEND: noninteractive
