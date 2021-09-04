@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/scala-playground
     docker:
-      - image: ubuntu:20.10
+      - image: ubuntu:21.10
     environment:
       DEBIAN_FRONTEND: noninteractive
     steps:
