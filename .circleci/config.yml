@@ -5,17 +5,15 @@ jobs:
     docker:
       - image: ubuntu:20.10
     environment:
-      SBT_VERSION: 1.4.7
       DEBIAN_FRONTEND: noninteractive
     steps:
       - run: echo 'export ARTIFACT_BUILD=$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM.zip' >> $BASH_ENV
       - run:
           name: install sbt jdk and scala
           command: |
-            apt update && apt install -y curl
-            curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
-            dpkg -i sbt-$SBT_VERSION.deb
-            rm sbt-$SBT_VERSION.deb
+            apt update && apt install -y curl gnupg
+            echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
+            curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add
             apt update
             apt install -y sbt scala openjdk-11-jdk
             apt clean && apt autoclean
