@@ -1,23 +1,26 @@
 version: 2.1
 jobs:
-  build:
+  sdkman:
     working_directory: ~/scala-playground
     docker:
-      - image: ubuntu:20.10
+      - image: cimg/openjdk:17.0.0
     environment:
       DEBIAN_FRONTEND: noninteractive
     steps:
-      - run: echo 'export ARTIFACT_BUILD=$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM.zip' >> $BASH_ENV
-      - run:
-          name: install sbt jdk and scala
-          command: |
-            apt update && apt install -y curl gnupg
-            echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
-            curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add
-            apt update
-            apt install -y sbt scala openjdk-11-jdk
-            apt clean && apt autoclean
       - checkout
+      - run: sudo apt update && sudo apt install curl
+      - run:
+          name: Installing SDKMAN!
+          command: |
+            curl -s "https://get.sdkman.io" | bash
+            echo sdkman_auto_answer=true > $HOME/.sdkman/etc/config
+            echo sdkman_auto_selfupdate=true >> $HOME/.sdkman/etc/config
+            source "$HOME/.sdkman/bin/sdkman-init.sh"
+            echo 'export SDKMAN_DIR="$HOME/.sdkman"' >> $BASH_ENV
+            echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> $BASH_ENV
+      - run: sdk version
+      - run: sdk install scala
+      - run: sdk install sbt
       - run: scalac -version && javac -version
       - run: scalac HelloWorld.scala
       - run: scala HelloWorld
@@ -27,7 +30,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - build
+      - sdkman
   daily_workflow:
     triggers:
       - schedule:
@@ -36,4 +39,4 @@ workflows:
             branches:
               only: /master/
     jobs:
-      - build
+      - sdkman
