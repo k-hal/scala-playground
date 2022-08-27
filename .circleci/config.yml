@@ -24,8 +24,6 @@ jobs:
       - run: scalac -version && javac -version
       - run: scalac HelloWorld.scala
       - run: scala HelloWorld
-
-
 workflows:
   version: 2
   build:
