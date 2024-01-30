@@ -3,7 +3,7 @@ jobs:
   sdkman:
     working_directory: ~/scala-playground
     docker:
-      - image: cimg/openjdk:21.0.0
+      - image: cimg/openjdk:21.0.2
     environment:
       DEBIAN_FRONTEND: noninteractive
     steps:
