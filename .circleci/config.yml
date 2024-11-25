@@ -3,7 +3,7 @@ jobs:
   sdkman:
     working_directory: ~/scala-playground
     docker:
-      - image: cimg/openjdk:21.0.2
+      - image: cimg/openjdk:21.0.5
     environment:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -21,9 +21,10 @@ jobs:
       - run: sdk version
       - run: sdk install scala
       - run: sdk install sbt
-      - run: scalac -version && javac -version
+      - run: scalac -version && javac -version && scala version
       - run: scalac HelloWorld.scala
-      - run: scala HelloWorld
+      - run: scala run -cp . -M HelloWorld
+      - run: scala run HelloWorld.scala
 workflows:
   version: 2
   build:
