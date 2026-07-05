@@ -19,7 +19,7 @@ jobs:
             echo 'export SDKMAN_DIR="$HOME/.sdkman"' >> $BASH_ENV
             echo 'source "$HOME/.sdkman/bin/sdkman-init.sh"' >> $BASH_ENV
       - run: sdk version
-      - run: sdk install scala
+      - run: sdk env install scala
       - run: sdk install sbt
       - run: scalac -version && javac -version && scala version
       - run: scalac HelloWorld.scala
