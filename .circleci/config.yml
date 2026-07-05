@@ -27,7 +27,7 @@ jobs:
       - run: scala run HelloWorld.scala
       - run:
           name: Package HelloWorld as standalone (fat) JAR
-          command: scala package HelloWorld.scala --standalone -o hello.jar
+          command: scala package --power HelloWorld.scala --standalone -o hello.jar
       - run:
           name: Run the JAR with java
           command: java -jar hello.jar
